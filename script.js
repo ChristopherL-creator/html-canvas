@@ -1,14 +1,14 @@
-const canvas = document.getElementById('canvas'); 
+const canvas = document.getElementById('canvas'); // prendo canvas da html
 // console.log(canvas);
 
-const context = canvas.getContext('2d'); 
+const context = canvas.getContext('2d'); // imposto la canvas per il 2d
 
 console.log(context); 
 
 rectArray = []; 
 
 
-
+//          numero rettangoli, in base a indice
 for (let i = 0; i < 500; i++) {
 //  rettangoli sono sovrapposti quindi se ne vede comunque uno; bisogna randomizzarli  (arte generativa);
     const randomX = Math.random() * 500; 
@@ -35,7 +35,7 @@ for (let i = 0; i < 500; i++) {
     const colorRgbString = 'rgba(' + randomRed + ', ' + randomGreen + ', ' + randomBlue + ', ' + randomAlpha + ')' 
     console.log(colorRgbString); 
 
-    const rect = { 
+    const rect = { // creo i parametri di oggetto rect
         x: randomX, 
         y: randomY, 
         width: randomW, 
@@ -45,51 +45,50 @@ for (let i = 0; i < 500; i++) {
         velY: randomVY
     } 
 
-    rectArray.push(rect);
+    rectArray.push(rect); // riempo array vuoto rectarray con oggetti rect
 
     // context.fillStyle = colorRgbString //  ultime due cifre sono trasparenza;
 
-//  canva va vista come piano cartesiano con origien in alto a sinistra; 
-//  le prime due misure indicano il punto d'origine rispetto a canvas; le ultime due larghezza e altezza; 
     // context.fillRect(randomX, randomY, randomW, randomH);
-     
+    
 } 
 
 //  per animare
 // setInterval(() =>{ 
-//     context.clearRect(0, 0, canvas.width, canvas.height);
-//     for (const rect of rectArray) { 
-//         context.fillStyle = rect.color;
-//         context.fillRect(rect.x, rect.y, rect.width, rect.heigth); 
-//         rect.x = rect.x + rect.velX;    //  per spostare rettangolo, sembra che si ingrandisca, ma perchè rimangono quelli precednti 
-//         rect.y = rect.y + rect.velY; 
-
-//         if (rect.x < 0 || (rect.x + rect.width) > canvas.width) { //    determino quando quadrato esce
-//             rect.velX = rect.velX * -1; // inverto velocità
-//         } 
-
-//         if (rect.y < 0 || (rect.y + rect.heigth) > canvas.height) { 
-//             rect.velY = rect.velY * -1;
-//         }
-//     }
-// }, Math.random()); // intervallo in millisecondi;  
-
-let actualTime = 0;
-
-function update(event) { 
-    console.log(event); //  per vedere somma di intervalli tra frame successivi; 
-
-    const deltaTime = event - actualTime; 
-
-    actualTime = event; 
-    console.log(deltaTime); //  per vedere intervallo preciso tra frames successivi;
-
+    //     context.clearRect(0, 0, canvas.width, canvas.height);
+    //     for (const rect of rectArray) { 
+        //         context.fillStyle = rect.color;
+        //         context.fillRect(rect.x, rect.y, rect.width, rect.heigth); 
+        //         rect.x = rect.x + rect.velX;    //  per spostare rettangolo, sembra che si ingrandisca, ma perchè rimangono quelli precednti 
+        //         rect.y = rect.y + rect.velY; 
+        
+        //         if (rect.x < 0 || (rect.x + rect.width) > canvas.width) { //    determino quando quadrato esce
+        //             rect.velX = rect.velX * -1; // inverto velocità
+        //         } 
+        
+        //         if (rect.y < 0 || (rect.y + rect.heigth) > canvas.height) { 
+            //             rect.velY = rect.velY * -1;
+            //         }
+            //     }
+            // }, Math.random()); // intervallo in millisecondi;  
+            
+            let actualTime = 0;
+            
+            function update(event) { 
+                console.log(event); //  per vedere somma di intervalli tra frame successivi; 
+                
+                const deltaTime = event - actualTime; // per calcolare il tempo  tra un frame e il successivo
+                
+                actualTime = event; 
+                console.log(deltaTime); //  per vedere intervallo preciso tra frames successivi;
+                
+//  canva va vista come piano cartesiano con origien in alto a sinistra; 
+//  le prime due misure indicano il punto d'origine rispetto a canvas; le ultime due larghezza e altezza; 
         context.clearRect(0, 0, canvas.width, canvas.height);
-    for (const rect of rectArray) { 
-        context.fillStyle = rect.color;
+    for (const rect of rectArray) { // ciclo ogni rettangolo in rectarray
+        context.fillStyle = rect.color; //  assegno i parametri colorrgbstring
         context.fillRect(rect.x, rect.y, rect.width, rect.heigth); 
         rect.x = rect.x + rect.velX * deltaTime / 10;    //  per spostare rettangolo, sembra che si ingrandisca, ma perchè rimangono quelli precednti; 
-        rect.y = rect.y + rect.velY * deltaTime / 10;   //  con deltaTime/10 mi assicuro che i rettangoli si muovano sempre allo stesso 
         //                                                  framerate(piuttosto con qualche scatto;
 
         if (rect.x < 0 || (rect.x + rect.width) > canvas.width) { //    determino quando quadrato esce;
